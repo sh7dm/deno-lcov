@@ -45,7 +45,11 @@ class StdResultContent extends ResultContent {
 class FnResultContent extends ResultContent {
   details: FnDetail[];
 }
-class Coverage {}
+class Coverage {
+  branches: number;
+  lines: number;
+  functions: number;
+}
 export class TestResult {
   testName: string;
   src: string;
@@ -54,8 +58,18 @@ export class TestResult {
   lnDetail: Object = {};
   lines: StdResultContent = new StdResultContent();
   branches: StdResultContent = new StdResultContent();
-  coverage: Coverage;
+  coverage: Coverage = new Coverage;
   genCoverage() {
+    if (this.branches.found !== 0) {
+      this.coverage.branches = (this.branches.hit * 100) / this.branches.found;
+    }
+    if (this.functions.found !== 0) {
+      this.coverage.functions =
+        (this.functions.hit * 100) / this.functions.found;
+    }
+    if (this.lines.found !== 0) {
+      this.coverage.lines = (this.lines.hit * 100) / this.lines.found;
+    }
     delete this.fnDetail;
     delete this.lnDetail;
   }
