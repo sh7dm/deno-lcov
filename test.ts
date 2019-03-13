@@ -1,3 +1,3 @@
 import { parse } from "./mod.ts";
 
-parse("./test/lcov.info");
+console.log(JSON.stringify(parse("./test/lcov.info")));

@@ -1,7 +1,10 @@
-const { readFileSync } = Deno;
 // http://ltp.sourceforge.net/coverage/lcov/geninfo.1.php
+const { readFileSync } = Deno;
+import { TestResult } from "./class.ts";
+
 const END = "end_of_record";
 const regFN = /([a-zA-Z_0-9]*)/g;
+
 enum start {
   // Test Name
   TN = "TN",
@@ -27,52 +30,6 @@ enum start {
   BRF = "BRF",
   // <number of branches hit>
   BRH = "BRH"
-}
-class Detail {
-  line: number;
-  hit: number;
-}
-class FnDetail extends Detail {
-  name: string;
-}
-class ResultContent {
-  hit: number;
-  found: number;
-}
-class StdResultContent extends ResultContent {
-  details: Detail[];
-}
-class FnResultContent extends ResultContent {
-  details: FnDetail[];
-}
-class Coverage {
-  branches: number;
-  lines: number;
-  functions: number;
-}
-export class TestResult {
-  testName: string;
-  src: string;
-  functions: FnResultContent = new FnResultContent();
-  fnDetail: Object = {};
-  lnDetail: Object = {};
-  lines: StdResultContent = new StdResultContent();
-  branches: StdResultContent = new StdResultContent();
-  coverage: Coverage = new Coverage;
-  genCoverage() {
-    if (this.branches.found !== 0) {
-      this.coverage.branches = (this.branches.hit * 100) / this.branches.found;
-    }
-    if (this.functions.found !== 0) {
-      this.coverage.functions =
-        (this.functions.hit * 100) / this.functions.found;
-    }
-    if (this.lines.found !== 0) {
-      this.coverage.lines = (this.lines.hit * 100) / this.lines.found;
-    }
-    delete this.fnDetail;
-    delete this.lnDetail;
-  }
 }
 
 function getLcovData(path: string): string[] {
@@ -137,6 +94,5 @@ export function parse(path: string): TestResult[] {
         break;
     }
   }
-  console.log(JSON.stringify(result));
   return result;
 }
