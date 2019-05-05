@@ -1,5 +1,7 @@
 # Deno LCOV
 
+[![Build Status](https://travis-ci.org/zekth/deno-lcov.svg?branch=master)](https://travis-ci.org/zekth/deno-lcov)
+
 A LCOV parser module for deno. usage:
 
 ```ts
