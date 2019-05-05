@@ -5,7 +5,7 @@ class Detail {
 class FnDetail extends Detail {
   name: string;
 }
-class ResultContent {
+export class ResultContent {
   hit: number;
   found: number;
 }
@@ -24,12 +24,14 @@ export class TestResult {
   testName: string;
   src: string;
   functions: FnResultContent = new FnResultContent();
+  // eslint-disable-next-line @typescript-eslint/ban-types
   fnDetail: Object = {};
+  // eslint-disable-next-line @typescript-eslint/ban-types
   lnDetail: Object = {};
   lines: StdResultContent = new StdResultContent();
   branches: StdResultContent = new StdResultContent();
   coverage: Coverage = new Coverage();
-  genCoverage() {
+  genCoverage(): void {
     if (this.branches.found !== 0) {
       this.coverage.branches = (this.branches.hit * 100) / this.branches.found;
     }

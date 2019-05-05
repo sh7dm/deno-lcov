@@ -1,7 +1,6 @@
 // http://ltp.sourceforge.net/coverage/lcov/geninfo.1.php
-const { readFileSync } = Deno;
 import { TestResult } from "./class.ts";
-
+export { render } from "./report.ts";
 const END = "end_of_record";
 const regFN = /([a-zA-Z_0-9]*)/g;
 
@@ -32,14 +31,8 @@ enum start {
   BRH = "BRH"
 }
 
-function getLcovData(path: string): string[] {
-  const lcovData = readFileSync("./test/lcov.info");
-  const dec = new TextDecoder("utf-8");
-  return dec.decode(lcovData).split("\n");
-}
-
-export function parse(path: string): TestResult[] {
-  const arrLcovData = getLcovData(path);
+export function parse(strData: string): TestResult[] {
+  const arrLcovData = strData.replace("\r\n", "\n").split("\n");
   const result: TestResult[] = [];
   const l = arrLcovData.length;
   let cT = new TestResult();
